@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{HW 2}
+\author{Gavin Lesher}
+\date{\today}
+\begin{document}
+    \maketitle
+    \clearpage
+
+    \section*{Q1: Linear Model with Laplace Error}
+
+        \begin{align*}
+            \text{Likelihood: }\prod_{i=1}^N P(y_i | \textbf{x}_i, \textbf{w}) &= 
+                \prod_{i=1}^N \frac{1}{2b}e^{-\frac{|y_i-\textbf{w}^T\textbf{x}_i|}{b}}\\
+             Log\left(\prod_{i=1}^N P(y_i | \textbf{x}_i, \textbf{w})\right)&= 
+             \sum_{i=1}^N log\left(\frac{1}{2b}\right) - \frac{1}{b}\underbrace{\sum_{i=1}^N |y_i - \textbf{w}^T \textbf{x}_i|}_\text{SAE}
+        \end{align*}
+        The terms outside of the SAE are all proportional with relation to \textbf{w}, so we have shown the MLE for this model also minimizes the sum of absolute errors.
+
+    \section*{Q2: Computing Recall and Precision}
+        \begin{center}
+            \begin{tabular}{| c | c | c |}
+                \hline
+                    & Recall & Precision \\[1ex]
+                \hline
+                t=0.0 & 1 & $\frac{1}{2}$ \\[1ex]
+                t=0.2 & 1 & $\frac{8}{13}$ \\[1ex]
+                t=0.4 & $\frac{3}{4}$ & $\frac{2}{3}$ \\[1ex]
+                t=0.6 & $\frac{3}{4}$ & $\frac{6}{7}$ \\[1ex]
+                t=0.8 & $\frac{1}{2}$ & $\frac{4}{5}$ \\[1ex]
+                t=1.0 & 0 & $\frac{0}{0}$\\[1ex]
+                \hline
+
+            \end{tabular}
+        \end{center}
+
+    \section*{Q4: Gradient Descent for Logistic Regression}
+
+        With step size $0.001$ and 1000 iterations I got a training accuracy of 86.7\%, and the weight vector: 
+        \begin{center}
+            $[-0.5017, 1.7639, 0.3287, 0.5501, -1.3888, -0.6717, 0.816, -0.6331]$
+        \end{center}
+
+    \section*{Q5: Adding A Dummy Variable}
+
+        With the same hyperparameters from Q4, I got a training accururacy of 97.0\%, and weight vector:
+        \begin{center}
+            $[-8.1518, 0.4524, 0.0235, 0.449, 0.5108, -0.0053, 0.3855, 0.2423, 0.3603]$
+        \end{center}
+
+    \clearpage
+    \section*{Q6: Learning Rates / Step Sizes}
+        
+        \begin{center}
+            Non-biased training accuracy and bias training accuracy
+            \\
+            \begin{tabular}{|c|c|c|c|c|c|c|}
+                    \hline
+                    step\_size& 1&0.1&0.01&0.001&0.0001&0.00001\\
+                    \hline
+                    Accuracy (\%)&84.33&85.84&84.55&86.70&86.27&85.62\\
+                    \hline
+                    Bias Acc (\%)&95.92&95.06&95.28&97.00&96.35&90.77\\
+                    \hline
+            \end{tabular}
+        \end{center}
+        \textbf{See plots in appendix.}\\
+        The step size seems to have a distribution that tends to be worse for accuracy as you extend towards the 
+        larger/smaller ends of the scale with a center around 0.001 or 0.0001. 
+        This makes sense, as with the larger end of the scale it becomes easy to overshoot, 
+        and with the smaller end of the scale it takes magnitudes longer to converge at a point (thought this could be mitigated by increased step size and more compute).
+
+        
+    \section*{Q7: Evaluating Cross Validation}
+
+        I matched the TA submission exactly, which is about 4\% lower accuracy than the average K-fold accuracy (with consideration to the standard deviation as well).
+        I would say that the means and standard deviation accurately captured my preformance on the Kaggle, as I am no longer fitting to the same data. 
+        A trend I did notice was that as you calculated higher K within the K-fold validation, the standard deviation got increasingly large.
+        I assume that is a symptom of simply having more data points to calculate the standard deviation with, rather than an average drop in preformance.
+
+    \section*{Debriefing}
+        I took about 4 hrs to code and collect data with another 2 hrs writing the report as I am still new to latex.\\
+
+        I would rate this assignment moderate. I didn't have too many issues with the coding or math, but the optimization
+        of logorithm accuracy we did confused me a little.\\
+
+        I did the assignment alone.\\
+
+        I think I'm at about a 75\% for this assignment. Implementing it was not a problem, but a lot of the inner workings of the algorithm I will have to study more.
+        \clearpage
+    \section*{Appendix}
+        \begin{figure}[h]
+            \includegraphics[width=\textwidth]{"ss1.png"}
+            \caption{Step size 1.0}
+        \end{figure}
+        \begin{figure}[!h]
+            \includegraphics[width=\textwidth]{"ssp1.png"}
+            \caption{Step size 0.1}
+        \end{figure}
+        \begin{figure}[!h]
+            \includegraphics[width=\textwidth]{"ssp01.png"}
+            \caption{Step size 0.01}
+        \end{figure}
+        \begin{figure}[!h]
+            \includegraphics[width=\textwidth]{"ssp001.png"}
+            \caption{Step size 0.001}
+        \end{figure}
+        \begin{figure}[!h]
+            \includegraphics[width=\textwidth]{"ssp0001.png"}
+            \caption{Step size 0.0001}
+        \end{figure}
+        \begin{figure}[!h]
+            \includegraphics[width=\textwidth]{"ssp00001.png"}
+            \caption{Step size 0.00001}
+        \end{figure}
+
+
+\end{document}
